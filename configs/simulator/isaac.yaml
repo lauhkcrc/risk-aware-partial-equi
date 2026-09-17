@@ -1,0 +1,35 @@
+# R2 simulation lock.  This file is declarative; launch scripts consume the
+# same values through environment variables so a run is reproducible.
+isaac_sim_version: 6.1.0.0
+isaac_lab_version: develop/pre-release-3.0.0
+isaac_lab_package_metadata: 24.2.1
+python_version: 3.12.3
+cuda_version: 13.0
+ros_distribution: jazzy
+urdf: /workspace/assets/combined_robot_ur5e_single_arm/urdf/total_robot.urdf
+usd_output: /tmp/rpe_r2/combined_robot_ur5e_single_arm.usd
+# Isaac URDF importer 6.1 emits the model-name root at stage scope.
+scene_root: /combined_robot_ur5e_single_arm
+ground_plane: /World/GroundPlane
+robot_spawn:
+  xyz_m: [0.0, 0.0, 0.324]
+physics:
+  mode: zero_gravity_articulation_with_kinematic_base_visualization
+  gravity_magnitude_m_s2: 0.0
+  ground_collision_enabled: false
+  contact_dynamics: false
+headless: true
+fixed_lift:
+  joint: lift_joint
+  enabled: true
+  policy: hold_at_urdf_initial_position
+articulation:
+  base_link: ranger_base_link
+  arm: right_arm
+  hand: right_revo2
+  tool_frame: right_base_link
+contact:
+  # Geometry is imported from the canonical URDF, but the R2-visual endpoint
+  # deliberately disables ground contact until wheel/contact calibration.
+  source: canonical_urdf_collision_elements
+  calibration: deferred

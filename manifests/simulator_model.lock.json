@@ -1,0 +1,61 @@
+{
+  "schema": "rpe.robot.simulator_model_lock/v1",
+  "lock_status": "R2_SIMULATION_ONLY",
+  "locked_at": "2026-09-15",
+  "software": {
+    "isaac_sim": "6.1.0.0",
+    "isaac_lab_target": "develop/pre-release 3.0.0",
+    "isaac_lab_package_metadata": "24.2.1",
+    "python": "3.12.3",
+    "cuda": "13.0",
+    "ros_distribution": "jazzy",
+    "execution_container": "thor"
+  },
+  "description": {
+    "urdf": "/workspace/assets/combined_robot_ur5e_single_arm/urdf/total_robot.urdf",
+    "root_link": "ranger_base_link",
+    "arm": "right_arm",
+    "hand": "right_revo2",
+    "tool_frame": "right_base_link",
+    "lift": {
+      "joint": "lift_joint",
+      "policy": "fixed_at_urdf_initial_position"
+    }
+  },
+  "ros": {
+    "namespace": "/sim/rpe",
+    "state_topics": [
+      "/sim/rpe/state/joint_states",
+      "/sim/rpe/state/odometry",
+      "/sim/rpe/state/tf",
+      "/sim/rpe/system/status"
+    ],
+    "command_topics": [
+      "/sim/rpe/command/base",
+      "/sim/rpe/command/arm_trajectory",
+      "/sim/rpe/command/hand",
+      "/sim/rpe/command/stop"
+    ],
+    "services": ["/sim/rpe/reset", "/sim/rpe/pause"],
+    "forbidden_hardware_topics": [
+      "/cmd_vel",
+      "/joint_states",
+      "/revo2/command_positions",
+      "/safety/motion_enable"
+    ]
+  },
+  "simulation_boundary": {
+    "hardware_access": false,
+    "vendor_drivers_started": false,
+    "base_semantics": "mode_switched_four_wheel_steering",
+    "base_lateral_command": "parallel_only; reject simultaneous linear.x/angular.z",
+    "arm_command": "bounded_joint_trajectory",
+    "hand_command": "six_normalized_independent_values_with_urdf_mimic",
+    "visual_physics": "zero_gravity_noncolliding_floor",
+    "base_visualization": "bounded_kinematic_root_motion",
+    "arm_articulation_drives": 6,
+    "hand_independent_articulation_drives": 6,
+    "hand_target_slew_rad_s": 0.5,
+    "contact_calibration": "deferred_beyond_R2_visual"
+  }
+}

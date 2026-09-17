@@ -1,0 +1,249 @@
+{
+  "schema": "rpe.robot_manifest/v1",
+  "manifest_status": "R0_LITE_FROZEN",
+  "generated_at": "2026-09-14",
+  "scope": "research baseline; no physical motion is authorized by this manifest",
+  "robot_model": {
+    "name": "combined_robot_ur5e_single_arm",
+    "base": "AgileX Ranger Mini 3.0 / V3",
+    "arm": "Universal Robots UR5e",
+    "hand": "BrainCo Revo2 MediumRight",
+    "lift": "present in description; fixed/unused by the baseline",
+    "base_kinematics": "mode_switched_four_wheel_steering",
+    "base_policy_action": "deferred_until_driver_mode_is_locked",
+    "base_kinematics_detail": "The platform driver selects Ackermann, parallel/lateral, or spin behavior. A nonzero linear.y command takes the parallel branch and does not simultaneously apply angular.z; do not expose an unconstrained [vx, vy, omega] policy action until one mode is deliberately locked."
+  },
+  "description": {
+    "source_root": "/workspace/assets/combined_robot_ur5e_single_arm",
+    "xacro": "urdf/total_robot.xacro",
+    "expanded_urdf": "urdf/total_robot.urdf",
+    "root_frame": "ranger_base_link",
+    "tool_frame": "right_base_link",
+    "tool_frame_semantics": "initial palm-center proxy; introduce a dedicated right_palm_center fixed frame when a measured offset is needed",
+    "lift_joint_policy": {
+      "source_joint": "lift_joint",
+      "source_type": "prismatic",
+      "baseline_behavior": "hold at the accepted CAD/model height; do not include in policy actions or command interfaces",
+      "simulator_requirement": "lock the joint at the selected initial position"
+    },
+    "mount_authority": "CAD-derived right-side mount supplied by the project owner; the current model uses right-arm support xyz=0 -0.18076 0.090783, rpy=0.7854 0 0 and UR5e base yaw rpy=0 0 1.570796326"
+  },
+  "controlled_joints": {
+    "arm": {
+      "command_representation": "joint trajectory",
+      "names": [
+        "right_arm_shoulder_pan_joint",
+        "right_arm_shoulder_lift_joint",
+        "right_arm_elbow_joint",
+        "right_arm_wrist_1_joint",
+        "right_arm_wrist_2_joint",
+        "right_arm_wrist_3_joint"
+      ],
+      "units": "radians",
+      "limits_source": "canonical URDF; serial-specific controller calibration remains a later real-robot item",
+      "position_limits_rad": {
+        "right_arm_shoulder_pan_joint": [-6.283185307179586, 6.283185307179586],
+        "right_arm_shoulder_lift_joint": [-6.283185307179586, 6.283185307179586],
+        "right_arm_elbow_joint": [-3.141592653589793, 3.141592653589793],
+        "right_arm_wrist_1_joint": [-6.283185307179586, 6.283185307179586],
+        "right_arm_wrist_2_joint": [-6.283185307179586, 6.283185307179586],
+        "right_arm_wrist_3_joint": [-6.283185307179586, 6.283185307179586]
+      },
+      "velocity_limits_rad_s": {
+        "right_arm_shoulder_pan_joint": 3.141592653589793,
+        "right_arm_shoulder_lift_joint": 3.141592653589793,
+        "right_arm_elbow_joint": 3.141592653589793,
+        "right_arm_wrist_1_joint": 3.141592653589793,
+        "right_arm_wrist_2_joint": 3.141592653589793,
+        "right_arm_wrist_3_joint": 3.141592653589793
+      },
+      "effort_limits_nm": {
+        "right_arm_shoulder_pan_joint": 150.0,
+        "right_arm_shoulder_lift_joint": 150.0,
+        "right_arm_elbow_joint": 150.0,
+        "right_arm_wrist_1_joint": 28.0,
+        "right_arm_wrist_2_joint": 28.0,
+        "right_arm_wrist_3_joint": 28.0
+      }
+    },
+    "hand": {
+      "command_representation": "six normalized independent finger values",
+      "units": "normalized [0,1] at the ROS command boundary; URDF joint values are radians",
+      "independent_names": [
+        "right_thumb_metacarpal_joint",
+        "right_thumb_proximal_joint",
+        "right_index_proximal_joint",
+        "right_middle_proximal_joint",
+        "right_ring_proximal_joint",
+        "right_pinky_proximal_joint"
+      ],
+      "mimic_names": [
+        "right_thumb_distal_joint",
+        "right_index_distal_joint",
+        "right_middle_distal_joint",
+        "right_ring_distal_joint",
+        "right_pinky_distal_joint"
+      ],
+      "independent_position_limits_rad": {
+        "right_thumb_metacarpal_joint": [0.0, 1.57],
+        "right_thumb_proximal_joint": [0.0, 1.03],
+        "right_index_proximal_joint": [0.0, 1.41],
+        "right_middle_proximal_joint": [0.0, 1.41],
+        "right_ring_proximal_joint": [0.0, 1.41],
+        "right_pinky_proximal_joint": [0.0, 1.41]
+      },
+      "limits_source": "canonical URDF; normalized ROS boundary is an adapter convention"
+    },
+    "lift": {
+      "names": [],
+      "policy": "fixed and excluded"
+    },
+    "base_state_joints": [
+      "fr_steering_joint",
+      "fr_wheel",
+      "fl_steering_joint",
+      "fl_wheel",
+      "rl_steering_joint",
+      "rl_wheel",
+      "rr_steering_joint",
+      "rr_wheel"
+    ]
+  },
+  "state_interfaces": {
+    "joint_state": {
+      "topic": "/combined_joint_states",
+      "type": "sensor_msgs/msg/JointState",
+      "owner": "thor_combined_state_bridge",
+      "rate_hz": 20,
+      "observed_rate_hz": 19.9,
+      "status": "observed on robot host read-only; container-local discovery remains unavailable under bridge networking"
+    },
+    "ur5e_feedback": {
+      "topic": "/joint_states",
+      "type": "sensor_msgs/msg/JointState",
+      "source": "Universal Robots ROS driver",
+      "observed_rate_hz": 500.0,
+      "driver_joint_order": ["elbow_joint", "shoulder_lift_joint", "shoulder_pan_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+      "status": "observed on robot host read-only; no movement was issued for this R0/R1 run"
+    },
+    "ranger": [
+      {"topic": "/system_state", "type": "ranger_msgs/msg/SystemState", "rate_hz": 50, "observed_rate_hz": 50.0},
+      {"topic": "/motion_state", "type": "ranger_msgs/msg/MotionState", "rate_hz": 50, "observed_rate_hz": 50.0},
+      {"topic": "/actuator_state", "type": "ranger_msgs/msg/ActuatorStateArray", "rate_hz": 50},
+      {"topic": "/odom", "type": "nav_msgs/msg/Odometry", "rate_hz": 50},
+      {"topic": "/battery_state", "type": "sensor_msgs/msg/BatteryState", "rate_hz": 50}
+    ],
+    "tf": {
+      "dynamic": "/tf",
+      "static": "/tf_static",
+      "root": "ranger_base_link",
+      "odom_child": "ranger_base_link"
+    },
+    "hand_feedback": {
+      "normalized_source": "BrainCo SDK via existing Revo2 bridge",
+      "normalized_ros_topic": "/combined_joint_states",
+      "status": "existing prototype path; no new driver is introduced by R0/R1"
+    },
+    "sensors": {
+      "baseline_required": false,
+      "topics": [],
+      "deferred": ["Odin1", "hand D435", "top D455", "third planned sensor"]
+    }
+  },
+  "command_interfaces": {
+    "base": {
+      "topic": "/cmd_vel",
+      "type": "geometry_msgs/msg/Twist",
+      "owner": "ranger_base",
+      "nominal_period_ms": 20,
+      "watchdog_timeout_ms": 500,
+      "bounds": {
+        "linear_x_m_s": [-2.0, 2.0],
+        "linear_y_m_s": [-2.0, 2.0],
+        "angular_z_rad_s": [-3.259, 3.259],
+        "ackermann_steering_rad": [-0.698, 0.698],
+        "parallel_steering_rad": [-1.571, 1.571]
+      },
+      "mode_constraint": "linear.y != 0 selects parallel/lateral mode; otherwise the driver selects Ackermann or spin mode from linear.x/angular.z"
+    },
+    "arm": {
+      "topic": "/scaled_joint_trajectory_controller/joint_trajectory",
+      "type": "trajectory_msgs/msg/JointTrajectory",
+      "action": "/scaled_joint_trajectory_controller/follow_joint_trajectory",
+      "action_type": "control_msgs/action/FollowJointTrajectory",
+      "command_representation": "bounded joint positions initially"
+    },
+    "hand": {
+      "topic": "/revo2/command_positions",
+      "type": "std_msgs/msg/Float32MultiArray",
+      "shape": [6],
+      "bounds": [0.0, 1.0],
+      "stop_topic": "/revo2/stop"
+    },
+    "lift": {
+      "topic": null,
+      "type": null,
+      "policy": "not exposed; fixed joint"
+    }
+  },
+  "safety_interfaces": {
+    "software_gate": {"topic": "/safety/motion_enable", "type": "std_msgs/msg/Bool", "default": false},
+    "hand_stop": {"topic": "/revo2/stop", "type": "std_msgs/msg/Bool"},
+    "physical_stop": {
+      "source": "Ranger CAN status frame 0x211, emergency-stop status bit documented by the V3 manual",
+      "policy": "physical E-stop remains authoritative; no R0/R1 script attempts to clear or alter it"
+    },
+    "command_ownership": "one vendor driver per active subsystem; WebGUI/ugv_bridge are not part of this contract"
+  },
+  "environment": {
+    "project_container": "thor",
+    "image": "thor-mimic-train:latest",
+    "ros_distro": "jazzy",
+    "ros_setup": "/opt/ros/jazzy/setup.bash",
+    "rmw": "rmw_cyclonedds_cpp",
+    "project_mount": "/workspace",
+    "gpu": "NVIDIA GPU exposed by Docker; exact host driver is not an R0/R1 gate",
+    "network_note": "Current container uses Docker bridge networking and therefore does not see the host DDS graph; use host networking or an explicit DDS discovery configuration for live ROS integration"
+  },
+  "provenance": {
+    "ranger_sdk_commit": "f2704eacdc90357078cd93ec60aae08bb4baab35",
+    "ranger_ros_wrapper_commit": "a1bc20675ae3655d4048b8e4b1139914de159b52",
+    "odin_ros_driver_commit": "e390c0389e99d47fb0f9fb9603406f4384ba310c",
+    "evidence_documents": [
+      "docs/project_handoff_2026-09-03.md",
+      "docs/ranger_hl_comm_incident_and_ros_controller_changes_2026-09-03.md",
+      "docs/thor_hardware_inventory_2026-09-03.md",
+      "docs/robot_bridge_execution_plan.md"
+    ]
+  },
+  "live_observation": {
+    "source": "robot host ROS topic introspection; read-only",
+    "captured_at": "2026-09-14",
+    "ranger_system_state": {
+      "vehicle_state": 2,
+      "control_mode": 0,
+      "error_code": 512,
+      "error_code_hex": "0x0200",
+      "raw_error_code": 0,
+      "motion_mode": 0,
+      "battery_voltage_v": 49.5
+    },
+    "motion_commands_sent": false
+  },
+  "known_blockers": [
+    "Live ROS graph is not visible from the currently running bridge-network container; the checked-in snapshot is marked NO_GRAPH rather than treating this as a missing driver.",
+    "Controller-level limits and serial-specific calibration remain unverified for any future physical-motion phase.",
+    "Isaac contact/friction calibration and native Isaac ROS articulation integration are deferred beyond the R2 simulation contract."
+  ],
+  "accepted_limitations": [
+    "The historical HL-COMM/0x211 issue is accepted as a hardware limitation; it is not an R2 software blocker and no R2 code accesses the robot host or CAN."
+  ],
+  "deferred": [
+    "serial-specific UR calibration",
+    "dedicated palm-center offset measurement",
+    "camera TF/calibration and sensor simulation",
+    "full SRDF/planning scene",
+    "system identification and domain randomization",
+    "physical motion testing"
+  ]
+}

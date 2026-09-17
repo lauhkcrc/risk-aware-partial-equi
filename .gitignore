@@ -1,0 +1,170 @@
+# =============================================================================
+# .gitignore for ROS 2 + NVIDIA Isaac Sim / Isaac Lab Projects
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# ROS 2 / Colcon
+# -----------------------------------------------------------------------------
+# Colcon workspace build artifacts
+build/
+install/
+log/
+# Colcon custom marker files
+COLCON_IGNORE
+AMENT_IGNORE
+# Colcon artifacts that may appear inside individual packages
+**/build/
+**/install/
+**/log/
+
+# -----------------------------------------------------------------------------
+# Isaac Sim / Omniverse
+# -----------------------------------------------------------------------------
+# Isaac Sim packman cache and repo directories
+_isaac_sim*
+_repo
+_build
+.lastformat
+# Omniverse crash dumps and thumbnail cache
+**/*.dmp
+**/.thumbs/
+# Omniverse application cache
+.nvidia-omniverse/
+# Isaac Sim asset browser runtime cache
+source/extensions/isaacsim.asset.browser/cache/
+isaacsim.asset.browser.cache.json
+
+# -----------------------------------------------------------------------------
+# Isaac Lab
+# -----------------------------------------------------------------------------
+# Isaac Lab output and training artifacts
+**/output/*
+**/outputs/*
+**/videos/*
+**/runs/*
+**/logs/*
+**/recordings/*
+**/wandb/*
+**/.neptune/*
+docker/artifacts/
+*.tmp
+# Pre-trained checkpoints and recorded datasets
+/.pretrained_checkpoints/
+/datasets/
+# TacSL sensor recordings
+**/tactile_record/*
+**/gelsight_r15_data/*
+# Isaac Lab Docker history
+.isaac-lab-docker-history
+# Isaac Sim symlink (often created in Isaac Lab projects)
+_isaac_sim
+# Packman (Isaac Lab dependency manager)
+_isaac_sim*
+_repo
+_build
+.lastformat
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.venv/
+venv/
+env/
+env_isaaclab/
+# Python environment files
+.python.env
+# Compiled Python protobuf
+*.pb
+
+# -----------------------------------------------------------------------------
+# C / C++ (common in ROS 2 packages)
+# -----------------------------------------------------------------------------
+# Build directories
+cmake-build-*/
+cmake-build-debug/
+cmake-build-release/
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.slo
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+# Compiled static libraries
+*.a
+*.lib
+*.lai
+*.la
+# Precompiled headers
+*.gch
+*.pch
+# Executables
+*.exe
+*.out
+*.app
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+
+# -----------------------------------------------------------------------------
+# ROS 2 Bags and Recorded Data (large files – share externally)
+# -----------------------------------------------------------------------------
+*.bag
+*.bag.active
+*.db3
+*.mcap
+*.active
+*.partial
+
+# -----------------------------------------------------------------------------
+# IDE / Editor
+# -----------------------------------------------------------------------------
+.vscode/
+!.vscode/settings.json          # keep shared VS Code settings if desired
+.idea/
+*.swp
+*.swo
+*~
+.#*
+.project
+.cproject
+CMakeLists.txt.user
+qtcreator-*
+*.user
+
+# -----------------------------------------------------------------------------
+# Operating System
+# -----------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# -----------------------------------------------------------------------------
+# Misc / Logs
+# -----------------------------------------------------------------------------
+*.log
+*.pid
+core
+core.*
+
+# Project-related generated directories. Keep the checked-in R2 contract
+# evidence and tests visible to the repository while leaving future large
+# runtime reports/datasets ignored by default.
+reports/*
+tests/*

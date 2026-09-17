@@ -1,0 +1,20 @@
+# No simulator publisher/subscriber may escape this namespace.
+namespace: /sim/rpe
+state:
+  joint_states: state/joint_states
+  odometry: state/odometry
+  tf: state/tf
+  system_status: system/status
+command:
+  base: command/base
+  arm_trajectory: command/arm_trajectory
+  hand: command/hand
+  stop: command/stop
+services:
+  reset: reset
+  pause: pause
+hardware_topics_forbidden:
+  - /cmd_vel
+  - /joint_states
+  - /revo2/command_positions
+  - /safety/motion_enable

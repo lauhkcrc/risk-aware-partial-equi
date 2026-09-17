@@ -1,0 +1,37 @@
+# First bounded grasp/contact calibration. Physical-hardware access is forbidden.
+isaac_sim_version: 6.1.0.0
+mode: grasp-contact
+robot_spawn:
+  xyz_m: [0.0, 0.0, 0.324]
+physics:
+  gravity_magnitude_m_s2: 9.81
+  # Global self-collision on the imported full-resolution hand meshes crashes
+  # Isaac 6.1 playback. Hand-object contact is calibrated first; filtered
+  # hand self-collision requires simplified shapes in a later gate.
+  self_collision_enabled: false
+  hand_material:
+    static_friction: 1.2
+    dynamic_friction: 1.0
+    restitution: 0.0
+  collision:
+    mesh_approximation: convexHull
+    contact_offset_m: 0.0015
+    rest_offset_m: 0.0
+object:
+  shape: cylinder
+  radius_m: 0.012
+  height_m: 0.042
+  axis: [-0.4965, 0.5602, -0.6632]
+  mass_kg: 0.03
+  placement_policy: zero-arm-pose calibrated pinch midpoint
+  pinch_midpoint_offset_m: [0.0104718, -0.0012504, -0.0396731]
+  material:
+    static_friction: 0.9
+    dynamic_friction: 0.8
+    restitution: 0.0
+task:
+  type: thumb_index_pinch
+  normalized_hand_target: [0.275, 0.40, 0.50, 0.0, 0.0, 0.0]
+  nonparticipating_fingers: [middle, ring, pinky]
+ros_namespace: /sim/rpe
+hardware_access: false

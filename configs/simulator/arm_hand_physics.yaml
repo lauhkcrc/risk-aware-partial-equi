@@ -1,0 +1,32 @@
+# Stage-one physics profile. It is separate from the known-good R2 visual
+# profile so Ranger wheel/contact work cannot regress arm/hand validation.
+isaac_sim_version: 6.1.0.0
+mode: arm-hand
+robot_spawn:
+  xyz_m: [0.0, 0.0, 0.324]
+physics:
+  gravity_magnitude_m_s2: 9.81
+  ground_collision_enabled: true
+  contact_dynamics: true
+  self_collision_enabled: false
+  ground_material:
+    static_friction: 0.9
+    dynamic_friction: 0.8
+    restitution: 0.0
+fixed_subsystems:
+  ranger_root: true
+  ranger_steering_and_wheels: true
+  lift: true
+controlled_subsystems:
+  ur5e_position_joints: 6
+  revo2_independent_position_joints: 6
+  revo2_mimic_joints: 0
+drives:
+  ur5e:
+    stiffness: 100.0
+    damping: 10.0
+  revo2:
+    stiffness: 20.0
+    damping: 2.0
+ros_namespace: /sim/rpe
+hardware_access: false

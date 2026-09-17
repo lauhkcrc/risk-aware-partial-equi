@@ -1,0 +1,47 @@
+# R0/R1 research baseline contract.
+# This file describes conventions; it does not launch hardware or authorize
+# commands. Vendor drivers remain outside this repository/container boundary.
+robot_model: combined_robot_ur5e_single_arm
+root_frame: ranger_base_link
+tool_frame: right_base_link
+tool_frame_semantics: palm_center_proxy
+
+lift:
+  enabled: false
+  fixed: true
+  joint: lift_joint
+  policy: excluded_from_observation_action_contract
+
+arm:
+  command_interface:
+    topic: /scaled_joint_trajectory_controller/joint_trajectory
+    action: /scaled_joint_trajectory_controller/follow_joint_trajectory
+    action_type: control_msgs/action/FollowJointTrajectory
+  joints:
+    - right_arm_shoulder_pan_joint
+    - right_arm_shoulder_lift_joint
+    - right_arm_elbow_joint
+    - right_arm_wrist_1_joint
+    - right_arm_wrist_2_joint
+    - right_arm_wrist_3_joint
+
+hand:
+  command_interface:
+    topic: /revo2/command_positions
+    stop_topic: /revo2/stop
+    type: std_msgs/msg/Float32MultiArray
+  independent_values: 6
+  normalized_bounds: [0.0, 1.0]
+  distal_joints: mimic_from_proximal
+
+base:
+  command_interface:
+    topic: /cmd_vel
+    type: geometry_msgs/msg/Twist
+  kinematics: mode_switched_four_wheel_steering
+  policy_action: deferred_until_driver_mode_is_locked
+
+safety:
+  motion_enable_topic: /safety/motion_enable
+  default_enabled: false
+  physical_estop_authoritative: true

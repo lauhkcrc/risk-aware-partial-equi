@@ -1,0 +1,42 @@
+{
+  "schema": "rpe.robot.environment_lock/v1",
+  "captured_at": "2026-09-15",
+  "execution_target": "thor",
+  "container": {
+    "name": "thor",
+    "image": "thor-mimic-train:latest",
+    "image_id": "sha256:6e2aec6240c43a04e7b060a3059e289a98776bf667bceb09fabe2c25cd7e73c2",
+    "os": "linux",
+    "architecture": "amd64",
+    "network_mode_observed": "bridge",
+    "project_mount": "/workspace"
+  },
+  "ros": {
+    "distribution": "jazzy",
+    "ros_base_deb": "0.11.0-1noble.20260903.093452",
+    "robot_state_publisher_deb": "3.3.4-1noble.20260903.022201",
+    "xacro_deb": "2.1.1-1noble.20260519.011123",
+    "rmw": "rmw_cyclonedds_cpp",
+    "domain_id": "0"
+  },
+  "simulation": {
+    "isaac_sim": "6.1.0.0",
+    "isaac_lab_target": "develop/pre-release 3.0.0",
+    "isaac_lab_package_metadata": "24.2.1",
+    "isaac_lab_branch": "develop",
+    "isaac_lab_commit": "a8b4da3c29ae528b39d4b3c9444d782ce58d886d"
+  },
+  "python": {
+    "ros_audit_interpreter": "/usr/bin/python3",
+    "ros_audit_version": "3.12.3",
+    "isaac_interpreter_version": "3.12.3",
+    "numpy_for_ros_audit": "1.26.4"
+  },
+  "gpu": {
+    "cuda_image_version": "13.0.0",
+    "gpu_observed": "NVIDIA GeForce RTX 4090 D",
+    "driver_observed": "580.178.04",
+    "isaac_warp_cuda_toolkit": "12.9"
+  },
+  "safety_note": "This lock records software discovery only. It authorizes no physical motion and does not assert simulator/host driver compatibility beyond the observed container state."
+}

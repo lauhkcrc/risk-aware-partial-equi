@@ -1,0 +1,85 @@
+# Simulation-only Ranger Mini V3 four-wheel-steering/contact profile.
+isaac_sim_version: 6.1.0.0
+mode: ranger-wheel
+robot_spawn:
+  xyz_m: [0.0, 0.0, 0.324]
+geometry:
+  wheel_radius_m: 0.09
+  nominal_wheelbase_m: 0.50
+  nominal_track_m: 0.38
+  contact_geometry: native URDF analytic cylinder
+  source_cylinder_collision_enabled: true
+  wheel_collider_center_offset_m: [0.0, 0.0, 0.0]
+  wheel_mass_kg: 8.0
+  wheel_diagonal_inertia_kg_m2: [0.02047, 0.0324, 0.02047]
+  wheel_inertia_axis: Y
+physics:
+  gravity_magnitude_m_s2: 9.81
+  time_steps_per_second: 60
+  enhanced_determinism: true
+  ground_collision_enabled: true
+  ranger_root_fixed: false
+  wheel_material:
+    drive_static_friction: 0.20
+    drive_dynamic_friction: 0.15
+    brake_static_friction: 0.20
+    brake_dynamic_friction: 0.15
+    alignment_static_friction: 0.02
+    alignment_dynamic_friction: 0.01
+    restitution: 0.0
+    friction_combine_mode: min
+    switching_policy: align/drive/brake mode on /sim/rpe/isaac/base_traction_mode
+  wheel_contact_offset_m: 0.002
+  wheel_rest_offset_m: 0.0
+  articulation_solver_position_iterations: 32
+  articulation_solver_velocity_iterations: 4
+  steering_drive_max_force_nm: 100.0
+  wheel_drive_max_force_nm: 1000.0
+  wheel_drive_damping:
+    alignment: 5.0
+    drive_and_brake: 100.0
+  wheel_command_acceleration_limit_rad_s2: 2.0
+fixed_subsystems:
+  lift: true
+  upper_body: merged rigid payload
+controlled_subsystems:
+  ranger_steering_position_joints: 4
+  ranger_wheel_velocity_joints: 4
+validation:
+  straight_linear_x_m_s: 0.10
+  spin_angular_z_rad_s: 0.10
+  straight_duration_s: 2.0
+  initial_settle_timeout_s: 12.0
+  initial_still_window_s: 0.5
+  initial_max_wheel_speed_rad_s: 0.05
+  initial_max_steering_speed_rad_s: 0.10
+  steering_alignment:
+    policy: measured position-and-velocity feedback before rolling
+    timeout_s: 6.0
+    position_tolerance_rad: 0.04
+    velocity_tolerance_rad_s: 0.10
+    adapter_still_window_s: 0.30
+    task_observation_window_s: 0.15
+  spin_duration_s: 4.0
+  rolling_spin_observation:
+    maximum_steering_speed_rad_s: 0.25
+    minimum_signed_wheel_speed_rad_s: 0.20
+    maximum_wheel_speed_rad_s: 0.70
+  stop_settle_min_duration_s: 0.25
+  stop_settle_timeout_s: 12.0
+  stop_still_window_s: 0.30
+  stop_max_wheel_speed_rad_s: 0.35
+  limits:
+    minimum_straight_displacement_m: 0.12
+    maximum_straight_lateral_drift_m: 0.05
+    maximum_straight_yaw_drift_rad: 0.10
+    maximum_stop_drift_m: 0.20
+    spin_yaw_policy: reported only; requires a future anisotropic tyre model for qualification
+    maximum_steering_alignment_translation_m: 0.12
+    maximum_rolling_spin_translation_m: 0.15
+    maximum_total_spin_transition_translation_m: 0.20
+    maximum_final_drift_m: 0.12
+    maximum_tilt_rad: 0.10
+  qualification_scope: bounded ROS actuation/contact smoke test; not calibrated tyre dynamics or odometry
+ros_namespace: /sim/rpe
+hardware_access: false

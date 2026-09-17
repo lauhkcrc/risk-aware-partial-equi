@@ -1,0 +1,75 @@
+{
+  "schema": "rpe.robot_model.lock/v1",
+  "lock_status": "R1_LITE_LOCKED",
+  "locked_at": "2026-09-14",
+  "model_name": "combined_robot_ur5e_single_arm",
+  "source": {
+    "root": "/workspace/assets/combined_robot_ur5e_single_arm",
+    "xacro": {
+      "path": "urdf/total_robot.xacro",
+      "sha256": "83a5c5ef1ce4d93972ce695205e5d37d50d166cd0e4969d6e8948667d9c117ee"
+    },
+    "expanded_urdf": {
+      "path": "urdf/total_robot.urdf",
+      "sha256": "0fae414e66ae6b3a1f73f04dbb9bff9309622d4de1344c0f58de6edeaebea8f5"
+    },
+    "included_descriptions": {
+      "urdf/ranger_mini.xacro": "5e09e5fcbf8ab4d3203aed513d56fa31a332d26d550bcca74738097e9457feca",
+      "urdf/lift_platform.urdf": "dd0cf88693b2826dc766b8933ecd374df5216f66708f800b949c72fdbf83fa27",
+      "urdf/ur5e.xacro": "02784095a6d60480e4120f37fd311a8eeb69d662c0fb351d641928c094f41302",
+      "urdf/revo2_right_hand.urdf": "f54a1c7a81cfcfbd2915532de9787bfb7edab7a0e33e1ca7dc1c8543450f8a0a"
+    },
+    "mesh_tree_sha256": "7446db8338fde706d321813c06fd10d9e5f7854c8f6bf7a0e3c9c39afadc6901"
+  },
+  "topology": {
+    "root_link": "ranger_base_link",
+    "links": 43,
+    "joints": 42,
+    "movable_joints": 26,
+    "joint_types": {"fixed": 16, "revolute": 21, "continuous": 4, "prismatic": 1},
+    "mimic_joints": [
+      "right_thumb_distal_joint",
+      "right_index_distal_joint",
+      "right_middle_distal_joint",
+      "right_ring_distal_joint",
+      "right_pinky_distal_joint"
+    ]
+  },
+  "mount_and_frames": {
+    "authority": "project-owner CAD",
+    "right_support_xyz_m": [0.0, -0.18076, 0.090783],
+    "right_support_rpy_rad": [0.7854, 0.0, 0.0],
+    "ur5e_base_yaw_rad": 1.570796326,
+    "hand_mount_xyz_m": [0.0, 0.0, 0.02],
+    "hand_mount_rpy_rad": [0.0, 0.0, 0.0],
+    "palm_center_frame": "right_base_link",
+    "palm_center_note": "right_base_link is the initial palm-center proxy; this alias can be replaced by a dedicated fixed frame without changing the arm joint contract",
+    "lift": "fixed by baseline policy at the accepted CAD/model height; source prismatic joint is not exposed to control"
+  },
+  "validation": {
+    "xacro_link_joint_sets": "PASS",
+    "xml_and_check_urdf": "PASS",
+    "single_root_and_reachability": "PASS",
+    "mesh_references": "PASS (66 references, 40 unique paths)",
+    "inertial_sanity": "PASS_WITH_WARNINGS (intentional frame-link omissions noted)",
+    "collision_geometry": "PASS for baseline geometry presence",
+    "fk_vs_robot_state_publisher": {
+      "status": "PASS",
+      "samples": 1000,
+      "target": "right_base_link",
+      "max_translation_error_m": 9.159339953157541e-16,
+      "max_orientation_error_deg": 2.699869328381916e-06,
+      "jacobian_position_fd_max_m_per_rad": 7.994184975459525e-11,
+      "implementation_a": "independent standard-library/NumPy URDF transform evaluator",
+      "implementation_b": "robot_state_publisher",
+      "report": "reports/fk_jacobian_check.json"
+    },
+    "physical_validation": "not performed; no robot movement or actuator command was issued",
+    "scope": "R1 import/kinematics lock; not a claim of controller-level or physical validation"
+  },
+  "known_warnings": [
+    "KDL warns when the root link carries inertia; this is accepted for URDF/RViz and should be handled explicitly by the Isaac importer.",
+    "Tip/frame links intentionally have no inertial element.",
+    "Serial-specific UR5e kinematic calibration and dedicated palm-center measurement are not part of this lock."
+  ]
+}
